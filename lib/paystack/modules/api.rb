@@ -12,4 +12,7 @@ module API
 	TRANSFER_PATH = "/transfer"
 	SETTLEMENT_PATH = "/settlement"
 	REFUND_PATH = "/refund"
+	RESOLVE_PATH = "/resolve"
+	VALIDATE_PATH = "/validate"
+	DECISION_PATH = "/decision"
 end

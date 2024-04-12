@@ -4,7 +4,6 @@
 
 A ruby gem for easy integration of [Paystack](https://paystack.co/).
 
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -23,8 +22,6 @@ Or install it yourself as:
 
 ## Basic Usage
 
-
-
 ### Instantiate Paystack Object
 
 ```ruby
@@ -40,9 +37,8 @@ A secure way is to set your public and private keys as environmental variables `
 	paystackObj =  Paystack.new
 
 ```
+
 It throws a `PaystackBadKeyError` when either of the keys are invalid or cannot be found as environment variables.
-
-
 
 ### Initialize transaction and get Authorization URL
 
@@ -56,9 +52,8 @@ It throws a `PaystackBadKeyError` when either of the keys are invalid or cannot 
 		)
 	auth_url = result['data']['authorization_url']
 ```
+
 NOTE: Amount is in kobo i.e. `100000 = 100000 kobo = 1000 naira`
-
-
 
 ### Charge using Authorization code for returning customers
 
@@ -72,11 +67,7 @@ NOTE: Amount is in kobo i.e. `100000 = 100000 kobo = 1000 naira`
 		)
 ```
 
-
-
 ## Transactions
-
-
 
 ### List transactions
 
@@ -108,7 +99,6 @@ NOTE: Amount is in kobo i.e. `100000 = 100000 kobo = 1000 naira`
 
 ```
 
-
 ### Get transaction totals
 
 ```ruby
@@ -118,9 +108,7 @@ NOTE: Amount is in kobo i.e. `100000 = 100000 kobo = 1000 naira`
 
 ```
 
-
 ## Customers
-
 
 ### List Customers
 
@@ -228,7 +216,6 @@ NOTE: Amount is in kobo i.e. `100000 = 100000 kobo = 1000 naira`
 
 ```
 
-
 ## Subscriptions
 
 ### Create new subscription
@@ -279,7 +266,6 @@ NOTE: Amount is in kobo i.e. `100000 = 100000 kobo = 1000 naira`
 			)
 
 ```
-
 
 ## Split Payments
 
@@ -352,6 +338,7 @@ This Gem is also aware of the API calls that allow you to perform split payments
 ```
 
 ## Settlements
+
 Fetch settlements made to your bank accounts and the bank accounts for your subaccounts
 
 ### List settlements
@@ -396,8 +383,6 @@ The funds transfers feature enables you send money directly from your paystack b
 
 ```
 
-
-
 ### Bulk transfer
 
 ```ruby
@@ -420,7 +405,6 @@ The funds transfers feature enables you send money directly from your paystack b
 	)
 
 ```
-
 
 ### List transfers
 
@@ -453,7 +437,6 @@ The funds transfers feature enables you send money directly from your paystack b
 		)
 
 ```
-
 
 ## Transfer Recipients
 
@@ -556,7 +539,6 @@ The funds transfers feature enables you send money directly from your paystack b
 
 ```
 
-
 ### Fetch refund
 
 ```ruby
@@ -566,9 +548,51 @@ The funds transfers feature enables you send money directly from your paystack b
 
 ```
 
-## Static methods
-`PaystackTransactions`, `PaystackCustomers`, `PaystackPlans`, `PaystackSubaccounts`, `PaystackRefunds`, `PaystackBanks` , `PaystackSubscriptions` , `PaystackSettlements`, `PaystackBalance`, and `PaystackTransfers` methods can be called statically, You just need to pass the paystack object as the first parameter  e.g. `verify` method in `PaystackTransactions` can be called like this
+## Verification
 
+### Resolve Account
+
+Confirm an account belongs to the right customer
+
+```ruby
+verification = PaystackVerification.new(paystackObj)
+
+account_number = "0022728151"
+bank_code = "063"
+resolve_account = verification.resolveAccount(account_number, bank_code)
+```
+
+### Validate Account
+
+Confirm the authenticity of a customer's account number before sending money
+
+```ruby
+verification = PaystackVerification.new(paystackObj)
+
+data = {
+	"bank_code": "632005",
+	"country_code": "ZA",
+	"account_number": "0123456789",
+	"account_name": "Ann Bron",
+	"account_type": "personal",
+	"document_type": "identityNumber",
+	"document_number": "1234567890123"
+}
+validate_account = verification.validateAccount(data)
+```
+
+### Resolve Card Bin
+
+```ruby
+verification = PaystackVerification.new(paystack)
+
+bin = "539983" # first 6 characters of card
+resolve_card_bin = verification.resolveCardBin(bin)
+```
+
+## Static methods
+
+`PaystackTransactions`, `PaystackCustomers`, `PaystackPlans`, `PaystackSubaccounts`, `PaystackRefunds`, `PaystackBanks` , `PaystackSubscriptions` , `PaystackSettlements`, `PaystackBalance`, `PaystackTransfers`, and `PaystackVerification` methods can be called statically, You just need to pass the paystack object as the first parameter e.g. `verify` method in `PaystackTransactions` can be called like this
 
 ```ruby
 
@@ -578,13 +602,9 @@ The funds transfers feature enables you send money directly from your paystack b
 
 ```
 
-
-
-
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/IkoroVictor/paystack-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
 
 ## License
 

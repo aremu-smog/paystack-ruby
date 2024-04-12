@@ -50,7 +50,7 @@ describe PaystackSubaccounts do
 		expect(subaccounts.nil?).to eq false
 		temp = Random.new_seed.to_s
 		hash=subaccounts.create(:business_name => "#{temp[0..6]}-business", :settlement_bank => "011", :account_number => "0000000000", :percentage_charge => 2.5)
-		puts hash
+		# puts hash
 		expect(hash.nil?).to eq false
 		expect(hash['data']['id'].nil?).to eq false
 	end
